@@ -10,7 +10,7 @@ public class Currently{
 	private String summary;
 
 	@SerializedName("precipProbability")
-	private int precipProbability;
+	private double precipProbability;
 
 	@SerializedName("visibility")
 	private double visibility;
@@ -19,7 +19,7 @@ public class Currently{
 	private double windGust;
 
 	@SerializedName("precipIntensity")
-	private int precipIntensity;
+	private double precipIntensity;
 
 	@SerializedName("icon")
 	private String icon;
@@ -75,7 +75,7 @@ public class Currently{
 		this.precipProbability = precipProbability;
 	}
 
-	public int getPrecipProbability(){
+	public double getPrecipProbability(){
 		return precipProbability;
 	}
 
@@ -99,7 +99,7 @@ public class Currently{
 		this.precipIntensity = precipIntensity;
 	}
 
-	public int getPrecipIntensity(){
+	public double getPrecipIntensity(){
 		return precipIntensity;
 	}
 
