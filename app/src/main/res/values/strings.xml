@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="get">GET</string>
+    <string name="some_randome_text_to_test_color_contrast">Some randome text to test color contrast.</string>
 </resources>
