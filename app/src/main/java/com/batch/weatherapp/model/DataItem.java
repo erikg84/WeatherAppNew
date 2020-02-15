@@ -3,8 +3,66 @@ package com.batch.weatherapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 
 public class DataItem{
+
+	@SerializedName("windGust")
+	private double windGust;
+
+	@SerializedName("apparentTemperatureMinTime")
+	private int apparentTemperatureMinTime;
+
+	@SerializedName("temperatureMax")
+	private double temperatureMax;
+
+	@SerializedName("icon")
+	private String icon;
+
+	@SerializedName("precipIntensityMax")
+	private double precipIntensityMax;
+
+	@SerializedName("windBearing")
+	private int windBearing;
+
+	@SerializedName("ozone")
+	private double ozone;
+
+	@SerializedName("temperatureMaxTime")
+	private int temperatureMaxTime;
+
+	@SerializedName("apparentTemperatureMin")
+	private double apparentTemperatureMin;
+
+	@SerializedName("sunsetTime")
+	private int sunsetTime;
+
+	@SerializedName("temperatureLow")
+	private double temperatureLow;
+
+	@SerializedName("precipType")
+	private String precipType;
+
+	@SerializedName("humidity")
+	private double humidity;
+
+	@SerializedName("moonPhase")
+	private double moonPhase;
+
+	@SerializedName("windSpeed")
+	private double windSpeed;
+
+	@SerializedName("apparentTemperatureLowTime")
+	private int apparentTemperatureLowTime;
+
+	@SerializedName("sunriseTime")
+	private int sunriseTime;
+
+	@SerializedName("apparentTemperatureLow")
+	private double apparentTemperatureLow;
 
 	@SerializedName("summary")
 	private String summary;
@@ -12,26 +70,29 @@ public class DataItem{
 	@SerializedName("precipProbability")
 	private double precipProbability;
 
+	@SerializedName("temperatureHighTime")
+	private int temperatureHighTime;
+
 	@SerializedName("visibility")
 	private double visibility;
-
-	@SerializedName("windGust")
-	private double windGust;
 
 	@SerializedName("precipIntensity")
 	private double precipIntensity;
 
-	@SerializedName("icon")
-	private String icon;
-
 	@SerializedName("cloudCover")
 	private double cloudCover;
 
-	@SerializedName("windBearing")
-	private int windBearing;
+	@SerializedName("temperature")
+	private double temperature;
+
+	@SerializedName("temperatureMin")
+	private double temperatureMin;
 
 	@SerializedName("apparentTemperature")
 	private double apparentTemperature;
+
+	@SerializedName("apparentTemperatureHighTime")
+	private int apparentTemperatureHighTime;
 
 	@SerializedName("pressure")
 	private double pressure;
@@ -39,29 +100,185 @@ public class DataItem{
 	@SerializedName("dewPoint")
 	private double dewPoint;
 
-	@SerializedName("ozone")
-	private double ozone;
+	@SerializedName("temperatureMinTime")
+	private int temperatureMinTime;
 
-	@SerializedName("precipType")
-	private String precipType;
+	@SerializedName("uvIndexTime")
+	private int uvIndexTime;
 
-	@SerializedName("precipAccumulation")
-	private double precipAccumulation;
+	@SerializedName("apparentTemperatureMax")
+	private double apparentTemperatureMax;
 
-	@SerializedName("temperature")
-	private double temperature;
+	@SerializedName("temperatureHigh")
+	private double temperatureHigh;
 
-	@SerializedName("humidity")
-	private double humidity;
+	@SerializedName("temperatureLowTime")
+	private int temperatureLowTime;
+
+	@SerializedName("apparentTemperatureHigh")
+	private double apparentTemperatureHigh;
 
 	@SerializedName("time")
 	private int time;
 
-	@SerializedName("windSpeed")
-	private double windSpeed;
+	@SerializedName("precipIntensityMaxTime")
+	private int precipIntensityMaxTime;
+
+	@SerializedName("windGustTime")
+	private int windGustTime;
 
 	@SerializedName("uvIndex")
 	private int uvIndex;
+
+	@SerializedName("precipAccumulation")
+	private double precipAccumulation;
+
+	@SerializedName("apparentTemperatureMaxTime")
+	private int apparentTemperatureMaxTime;
+
+	public void setWindGust(double windGust){
+		this.windGust = windGust;
+	}
+
+	public double getWindGust(){
+		return windGust;
+	}
+
+	public void setApparentTemperatureMinTime(int apparentTemperatureMinTime){
+		this.apparentTemperatureMinTime = apparentTemperatureMinTime;
+	}
+
+	public int getApparentTemperatureMinTime(){
+		return apparentTemperatureMinTime;
+	}
+
+	public void setTemperatureMax(double temperatureMax){
+		this.temperatureMax = temperatureMax;
+	}
+
+	public String getTemperatureMax(){
+		return (int)temperatureMax+"°";
+	}
+
+	public void setIcon(String icon){
+		this.icon = icon;
+	}
+
+	public String getIcon(){
+		return icon;
+	}
+
+	public void setPrecipIntensityMax(double precipIntensityMax){
+		this.precipIntensityMax = precipIntensityMax;
+	}
+
+	public double getPrecipIntensityMax(){
+		return precipIntensityMax;
+	}
+
+	public void setWindBearing(int windBearing){
+		this.windBearing = windBearing;
+	}
+
+	public int getWindBearing(){
+		return windBearing;
+	}
+
+	public void setOzone(double ozone){
+		this.ozone = ozone;
+	}
+
+	public double getOzone(){
+		return ozone;
+	}
+
+	public void setTemperatureMaxTime(int temperatureMaxTime){
+		this.temperatureMaxTime = temperatureMaxTime;
+	}
+
+	public int getTemperatureMaxTime(){
+		return temperatureMaxTime;
+	}
+
+	public void setApparentTemperatureMin(double apparentTemperatureMin){
+		this.apparentTemperatureMin = apparentTemperatureMin;
+	}
+
+	public double getApparentTemperatureMin(){
+		return apparentTemperatureMin;
+	}
+
+	public void setSunsetTime(int sunsetTime){
+		this.sunsetTime = sunsetTime;
+	}
+
+	public int getSunsetTime(){
+		return sunsetTime;
+	}
+
+	public void setTemperatureLow(double temperatureLow){
+		this.temperatureLow = temperatureLow;
+	}
+
+	public double getTemperatureLow(){
+		return temperatureLow;
+	}
+
+	public void setPrecipType(String precipType){
+		this.precipType = precipType;
+	}
+
+	public String getPrecipType(){
+		return precipType;
+	}
+
+	public void setHumidity(double humidity){
+		this.humidity = humidity;
+	}
+
+	public double getHumidity(){
+		return humidity;
+	}
+
+	public void setMoonPhase(double moonPhase){
+		this.moonPhase = moonPhase;
+	}
+
+	public double getMoonPhase(){
+		return moonPhase;
+	}
+
+	public void setWindSpeed(double windSpeed){
+		this.windSpeed = windSpeed;
+	}
+
+	public double getWindSpeed(){
+		return windSpeed;
+	}
+
+	public void setApparentTemperatureLowTime(int apparentTemperatureLowTime){
+		this.apparentTemperatureLowTime = apparentTemperatureLowTime;
+	}
+
+	public int getApparentTemperatureLowTime(){
+		return apparentTemperatureLowTime;
+	}
+
+	public void setSunriseTime(int sunriseTime){
+		this.sunriseTime = sunriseTime;
+	}
+
+	public int getSunriseTime(){
+		return sunriseTime;
+	}
+
+	public void setApparentTemperatureLow(double apparentTemperatureLow){
+		this.apparentTemperatureLow = apparentTemperatureLow;
+	}
+
+	public double getApparentTemperatureLow(){
+		return apparentTemperatureLow;
+	}
 
 	public void setSummary(String summary){
 		this.summary = summary;
@@ -75,8 +292,16 @@ public class DataItem{
 		this.precipProbability = precipProbability;
 	}
 
-	public double getPrecipProbability(){
-		return precipProbability;
+	public String getPrecipProbability(){
+		return (int)precipProbability+"%";
+	}
+
+	public void setTemperatureHighTime(int temperatureHighTime){
+		this.temperatureHighTime = temperatureHighTime;
+	}
+
+	public int getTemperatureHighTime(){
+		return temperatureHighTime;
 	}
 
 	public void setVisibility(int visibility){
@@ -87,28 +312,12 @@ public class DataItem{
 		return visibility;
 	}
 
-	public void setWindGust(double windGust){
-		this.windGust = windGust;
-	}
-
-	public double getWindGust(){
-		return windGust;
-	}
-
 	public void setPrecipIntensity(double precipIntensity){
 		this.precipIntensity = precipIntensity;
 	}
 
 	public double getPrecipIntensity(){
 		return precipIntensity;
-	}
-
-	public void setIcon(String icon){
-		this.icon = icon;
-	}
-
-	public String getIcon(){
-		return icon;
 	}
 
 	public void setCloudCover(double cloudCover){
@@ -119,20 +328,20 @@ public class DataItem{
 		return cloudCover;
 	}
 
-	public void setWindBearing(int windBearing){
-		this.windBearing = windBearing;
+	public void setTemperatureMin(double temperatureMin){
+		this.temperatureMin = temperatureMin;
 	}
 
-	public int getWindBearing(){
-		return windBearing;
+	public String getTemperatureMin(){
+		return (int)temperatureMin+"°";
 	}
 
-	public void setApparentTemperature(double apparentTemperature){
-		this.apparentTemperature = apparentTemperature;
+	public void setApparentTemperatureHighTime(int apparentTemperatureHighTime){
+		this.apparentTemperatureHighTime = apparentTemperatureHighTime;
 	}
 
-	public double getApparentTemperature(){
-		return apparentTemperature;
+	public int getApparentTemperatureHighTime(){
+		return apparentTemperatureHighTime;
 	}
 
 	public void setPressure(double pressure){
@@ -151,60 +360,78 @@ public class DataItem{
 		return dewPoint;
 	}
 
-	public void setOzone(double ozone){
-		this.ozone = ozone;
+	public void setTemperatureMinTime(int temperatureMinTime){
+		this.temperatureMinTime = temperatureMinTime;
 	}
 
-	public double getOzone(){
-		return ozone;
+	public int getTemperatureMinTime(){
+		return temperatureMinTime;
 	}
 
-	public void setPrecipType(String precipType){
-		this.precipType = precipType;
+	public void setUvIndexTime(int uvIndexTime){
+		this.uvIndexTime = uvIndexTime;
 	}
 
-	public String getPrecipType(){
-		return precipType;
+	public int getUvIndexTime(){
+		return uvIndexTime;
 	}
 
-	public void setPrecipAccumulation(double precipAccumulation){
-		this.precipAccumulation = precipAccumulation;
+	public void setApparentTemperatureMax(double apparentTemperatureMax){
+		this.apparentTemperatureMax = apparentTemperatureMax;
 	}
 
-	public double getPrecipAccumulation(){
-		return precipAccumulation;
+	public double getApparentTemperatureMax(){
+		return apparentTemperatureMax;
 	}
 
-	public void setTemperature(double temperature){
-		this.temperature = temperature;
+	public void setTemperatureHigh(double temperatureHigh){
+		this.temperatureHigh = temperatureHigh;
 	}
 
-	public double getTemperature(){
-		return temperature;
+	public double getTemperatureHigh(){
+		return temperatureHigh;
 	}
 
-	public void setHumidity(double humidity){
-		this.humidity = humidity;
+	public void setTemperatureLowTime(int temperatureLowTime){
+		this.temperatureLowTime = temperatureLowTime;
 	}
 
-	public double getHumidity(){
-		return humidity;
+	public int getTemperatureLowTime(){
+		return temperatureLowTime;
+	}
+
+	public void setApparentTemperatureHigh(double apparentTemperatureHigh){
+		this.apparentTemperatureHigh = apparentTemperatureHigh;
+	}
+
+	public double getApparentTemperatureHigh(){
+		return apparentTemperatureHigh;
 	}
 
 	public void setTime(int time){
 		this.time = time;
 	}
 
-	public int getTime(){
-		return time;
+	public String getTime(){
+		Date date = new java.util.Date(time*1000L);
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("ha");
+		return sdf.format(date);
 	}
 
-	public void setWindSpeed(double windSpeed){
-		this.windSpeed = windSpeed;
+	public void setPrecipIntensityMaxTime(int precipIntensityMaxTime){
+		this.precipIntensityMaxTime = precipIntensityMaxTime;
 	}
 
-	public double getWindSpeed(){
-		return windSpeed;
+	public int getPrecipIntensityMaxTime(){
+		return precipIntensityMaxTime;
+	}
+
+	public void setWindGustTime(int windGustTime){
+		this.windGustTime = windGustTime;
+	}
+
+	public int getWindGustTime(){
+		return windGustTime;
 	}
 
 	public void setUvIndex(int uvIndex){
@@ -215,29 +442,81 @@ public class DataItem{
 		return uvIndex;
 	}
 
+	public void setApparentTemperatureMaxTime(int apparentTemperatureMaxTime){
+		this.apparentTemperatureMaxTime = apparentTemperatureMaxTime;
+	}
+
+	public int getApparentTemperatureMaxTime(){
+		return apparentTemperatureMaxTime;
+	}
+
+	public void setTemperature(double temperature){
+		this.temperature = temperature;
+	}
+
+	public String getTemperature(){
+		return (int)temperature+"°";
+	}
+
+	public void setApparentTemperature(double apparentTemperature){
+		this.apparentTemperature = apparentTemperature;
+	}
+
+	public double getApparentTemperature(){
+		return apparentTemperature;
+	}
+
+	public void setPrecipAccumulation(double precipAccumulation){
+		this.precipAccumulation = precipAccumulation;
+	}
+
+	public double getPrecipAccumulation(){
+		return precipAccumulation;
+	}
+
 	@Override
 	public String toString(){
 		return
 				"DataItem{" +
-						"summary = '" + summary + '\'' +
-						",precipProbability = '" + precipProbability + '\'' +
-						",visibility = '" + visibility + '\'' +
 						",windGust = '" + windGust + '\'' +
-						",precipIntensity = '" + precipIntensity + '\'' +
+						",apparentTemperatureMinTime = '" + apparentTemperatureMinTime + '\'' +
+						",temperatureMax = '" + temperatureMax + '\'' +
 						",icon = '" + icon + '\'' +
-						",cloudCover = '" + cloudCover + '\'' +
+						",precipIntensityMax = '" + precipIntensityMax + '\'' +
 						",windBearing = '" + windBearing + '\'' +
-						",apparentTemperature = '" + apparentTemperature + '\'' +
+						",ozone = '" + ozone + '\'' +
+						",temperatureMaxTime = '" + temperatureMaxTime + '\'' +
+						",apparentTemperatureMin = '" + apparentTemperatureMin + '\'' +
+						",sunsetTime = '" + sunsetTime + '\'' +
+						",temperatureLow = '" + temperatureLow + '\'' +
+						",precipType = '" + precipType + '\'' +
+						",humidity = '" + humidity + '\'' +
+						",moonPhase = '" + moonPhase + '\'' +
+						",windSpeed = '" + windSpeed + '\'' +
+						",apparentTemperatureLowTime = '" + apparentTemperatureLowTime + '\'' +
+						",sunriseTime = '" + sunriseTime + '\'' +
+						",apparentTemperatureLow = '" + apparentTemperatureLow + '\'' +
+						",summary = '" + summary + '\'' +
+						",precipProbability = '" + precipProbability + '\'' +
+						",temperatureHighTime = '" + temperatureHighTime + '\'' +
+						",visibility = '" + visibility + '\'' +
+						",precipIntensity = '" + precipIntensity + '\'' +
+						",cloudCover = '" + cloudCover + '\'' +
+						",temperatureMin = '" + temperatureMin + '\'' +
+						",apparentTemperatureHighTime = '" + apparentTemperatureHighTime + '\'' +
 						",pressure = '" + pressure + '\'' +
 						",dewPoint = '" + dewPoint + '\'' +
-						",ozone = '" + ozone + '\'' +
-						",precipType = '" + precipType + '\'' +
-						",precipAccumulation = '" + precipAccumulation + '\'' +
-						",temperature = '" + temperature + '\'' +
-						",humidity = '" + humidity + '\'' +
+						",temperatureMinTime = '" + temperatureMinTime + '\'' +
+						",uvIndexTime = '" + uvIndexTime + '\'' +
+						",apparentTemperatureMax = '" + apparentTemperatureMax + '\'' +
+						",temperatureHigh = '" + temperatureHigh + '\'' +
+						",temperatureLowTime = '" + temperatureLowTime + '\'' +
+						",apparentTemperatureHigh = '" + apparentTemperatureHigh + '\'' +
 						",time = '" + time + '\'' +
-						",windSpeed = '" + windSpeed + '\'' +
+						",precipIntensityMaxTime = '" + precipIntensityMaxTime + '\'' +
+						",windGustTime = '" + windGustTime + '\'' +
 						",uvIndex = '" + uvIndex + '\'' +
+						",apparentTemperatureMaxTime = '" + apparentTemperatureMaxTime + '\'' +
 						"}";
 	}
 }

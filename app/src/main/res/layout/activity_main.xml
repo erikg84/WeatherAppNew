@@ -6,26 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <Button
-        android:id="@+id/get_weather_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/get"
-        android:layout_centerHorizontal="true"
-        />
-    <ScrollView
+    <fragment
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/get_weather_button"
-        android:layout_alignParentBottom="true">
-        <TextView
-            android:id="@+id/current_weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_primary"
-            android:textColor="@color/cardview_light_background"
-            android:text="@string/some_randome_text_to_test_color_contrast"
-            android:textSize="20sp"
-            android:textStyle="italic"/>
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/nav_host_main"
+        app:defaultNavHost="true"/>
 </RelativeLayout>

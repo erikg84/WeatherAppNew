@@ -48,8 +48,14 @@ public class Currently{
 	@SerializedName("nearestStormDistance")
 	private int nearestStormDistance;
 
+	@SerializedName("temperatureMax")
+	private double temperatureMax;
+
 	@SerializedName("temperature")
 	private double temperature;
+
+	@SerializedName("temperatureMin")
+	private double temperatureMin;
 
 	@SerializedName("humidity")
 	private double humidity;
@@ -179,9 +185,27 @@ public class Currently{
 		this.temperature = temperature;
 	}
 
-	public double getTemperature(){
-		return temperature;
+	public String getTemperature(){
+		return (int)temperature+"°";
 	}
+
+	public void setTemperatureMin(double temperatureMin){
+		this.temperatureMin = temperatureMin;
+	}
+
+	public String getTemperatureMin(){
+		return (int)temperatureMin+"°";
+	}
+
+	public void setTemperatureMax(double temperatureMax){
+		this.temperatureMax = temperatureMax;
+	}
+
+	public String getTemperatureMax(){
+		return (int)temperatureMax+"°";
+	}
+
+
 
 	public void setHumidity(double humidity){
 		this.humidity = humidity;
@@ -195,8 +219,8 @@ public class Currently{
 		this.time = time;
 	}
 
-	public int getTime(){
-		return time;
+	public String getTime(){
+		return String.valueOf(time);
 	}
 
 	public void setWindSpeed(double windSpeed){

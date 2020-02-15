@@ -2,4 +2,11 @@
     <string name="app_name">WeatherApp</string>
     <string name="get">GET</string>
     <string name="some_randome_text_to_test_color_contrast">Some randome text to test color contrast.</string>
+    <string name="degree_symbol">22°</string>
+    <string name="degree_symbol_fer">19°C</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_place_here">enter place here</string>
+    <string name="datetimetext">Feb, 14 2020</string>
 </resources>

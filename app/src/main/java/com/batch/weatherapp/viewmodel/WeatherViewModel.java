@@ -37,7 +37,7 @@ public class WeatherViewModel extends AndroidViewModel {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.d(TAG, "onSubscribe: ");
-                        showProgressBar.setValue(true);
+                        //showProgressBar.setValue(true);
                     }
                     
                     @Override
@@ -55,7 +55,7 @@ public class WeatherViewModel extends AndroidViewModel {
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "onComplete: ");
-                        showProgressBar.setValue(false);
+                        //showProgressBar.setValue(false);
                     }
                 });
     }
