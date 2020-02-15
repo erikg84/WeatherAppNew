@@ -1,6 +1,7 @@
 package com.batch.weatherapp.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -28,16 +29,14 @@ public class WeatherViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void getResponseObservable() {
-        Log.d(TAG, "getDefinitionsObservable: ");
-        repo.getCurrentWeather()
+    public void getResponseObservable(double latitude, double longitude) {
+        repo.getCurrentWeather(latitude, longitude)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         Log.d(TAG, "onSubscribe: ");
-                        //showProgressBar.setValue(true);
                     }
                     
                     @Override
@@ -55,7 +54,6 @@ public class WeatherViewModel extends AndroidViewModel {
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "onComplete: ");
-                        //showProgressBar.setValue(false);
                     }
                 });
     }

@@ -1,10 +1,39 @@
 package com.batch.weatherapp.model;
 
 
-import com.google.gson.annotations.SerializedName;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import com.batch.weatherapp.R;
+import com.google.gson.annotations.SerializedName;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Currently{
+
+	private Context context;
+
+	public void setContext(Context context){
+		this.context = context;
+		Log.d("MY TAG: ", "setContext: ");
+	}
+
+	private Map<String, Integer> iconMap = new HashMap<String, Integer>() {{
+		put("clear-day", R.mipmap.ic_summer_foreground);
+		put("clear-night", R.mipmap.ic_clear_night_foreground);
+		put("rain", R.mipmap.ic_rain_foreground);
+		put("snow", R.mipmap.ic_snow_foreground);
+		put("sleet", R.mipmap.ic_sleet_foreground);
+		put("wind", R.mipmap.ic_wind_foreground);
+		put("fog", R.mipmap.ic_haze_foreground);
+		put("cloudy", R.mipmap.ic_clouds_foreground);
+		put("partly-cloudy-day", R.mipmap.ic_partly_cloudy_day_foreground);
+		put("partly-cloudy-night", R.mipmap.ic_night_foreground);
+
+	}};
 
 	@SerializedName("summary")
 	private String summary;
@@ -69,11 +98,19 @@ public class Currently{
 	@SerializedName("uvIndex")
 	private int uvIndex;
 
+	@SerializedName("imageRes")
+	private Drawable imageRes;
+
+	public Drawable getImageRes() {
+		return context.getResources().getDrawable(iconMap.get(getIcon()),null);
+	}
+
 	public void setSummary(String summary){
 		this.summary = summary;
 	}
 
 	public String getSummary(){
+		Log.d("SUMMRAY TAG", "getSummary: ");
 		return summary;
 	}
 
@@ -220,7 +257,9 @@ public class Currently{
 	}
 
 	public String getTime(){
-		return String.valueOf(time);
+		Date date = new java.util.Date(time*1000L);
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("E,h:ssa");
+		return sdf.format(date);
 	}
 
 	public void setWindSpeed(double windSpeed){

@@ -18,7 +18,7 @@ public class Repository {
         return RepositoryInstanceHolder.INSTANCE;
     }
 
-    public Observable<Response> getCurrentWeather(){
-        return ServiceInstance.getWeatherService().getCurrentWeather("bb6c34c5483d5d89566fad9c9bda051c",42.3601,-71.0589);
+    public Observable<Response> getCurrentWeather(double latitude, double longitude){
+        return ServiceInstance.getWeatherService().getCurrentWeather("bb6c34c5483d5d89566fad9c9bda051c",latitude,longitude);
     }
 }

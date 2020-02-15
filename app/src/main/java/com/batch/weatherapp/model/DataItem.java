@@ -157,7 +157,7 @@ public class DataItem{
 	}
 
 	public String getTemperatureMax(){
-		return (int)temperatureMax+"°";
+		return (int)temperatureMax+"°C";
 	}
 
 	public void setIcon(String icon){
@@ -333,7 +333,7 @@ public class DataItem{
 	}
 
 	public String getTemperatureMin(){
-		return (int)temperatureMin+"°";
+		return (int)temperatureMin+"°C";
 	}
 
 	public void setApparentTemperatureHighTime(int apparentTemperatureHighTime){
