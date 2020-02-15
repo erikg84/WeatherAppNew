@@ -12,13 +12,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.batch.weatherapp.R;
 import com.batch.weatherapp.adapter.WeatherAdapter;
@@ -26,7 +30,10 @@ import com.batch.weatherapp.databinding.FragmentCurrentWeatherBinding;
 import com.batch.weatherapp.model.Currently;
 import com.batch.weatherapp.model.DataItem;
 import com.batch.weatherapp.model.Response;
+import com.batch.weatherapp.placesadapter.PlacesAutoCompleteAdapter;
 import com.batch.weatherapp.viewmodel.WeatherViewModel;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,17 +46,17 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CurrentWeatherFragment extends Fragment {
+public class CurrentWeatherFragment extends Fragment implements PlacesAutoCompleteAdapter.ClickListener {
     private WeatherAdapter adapter;
     private List<DataItem> dataItems;
     private double latitude, longitude = 0;
     private String featureName, countryName="";
     private WeatherViewModel viewModel;
     private FragmentCurrentWeatherBinding bind;
-    private List<String> icons = new ArrayList<>(
-            Arrays.asList("clear-day","clear-night","rain","snow","sleet","wind","fog",
-                    "cloudy","partly-cloudy-day","partly-cloudy-night")
-    );
+
+    private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
+    private RecyclerView recyclerView;
+
     public CurrentWeatherFragment() {
         // Required empty public constructor
     }
@@ -72,7 +79,7 @@ public class CurrentWeatherFragment extends Fragment {
         bind.recyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
         bind.recyclerview.setAdapter(adapter);
         setupListeners();
-
+        setupPlacesAdapter(bind.getRoot());
         return bind.getRoot();
     }
     private void setupListeners(){
@@ -95,6 +102,7 @@ public class CurrentWeatherFragment extends Fragment {
     private void setLocaleDetails(String placeName){
         Geocoder geocoder = new Geocoder(requireContext());
         try {
+
             Address location= geocoder.getFromLocationName(placeName,1).get(0);
             latitude = location.getLatitude();
             longitude = location.getLongitude();
@@ -108,4 +116,32 @@ public class CurrentWeatherFragment extends Fragment {
 
     }
 
+    @Override
+    public void click(Place place) {
+        Toast.makeText(requireActivity(), place.getAddress()+", "+place.getLatLng().latitude+place.getLatLng().longitude, Toast.LENGTH_SHORT).show();
+    }
+    private void setupPlacesAdapter(View view){
+        Places.initialize(requireContext(), "AIzaSyDPjOpwm4thAtskqkNKm61FJCTlV8GABDQ");
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.places_recycler_view);
+        bind.searchBar.addTextChangedListener(filterTextWatcher);
+
+        mAutoCompleteAdapter = new PlacesAutoCompleteAdapter(requireContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mAutoCompleteAdapter.setClickListener(this);
+        recyclerView.setAdapter(mAutoCompleteAdapter);
+        mAutoCompleteAdapter.notifyDataSetChanged();
+    }
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            if (!s.toString().equals("")) {
+                mAutoCompleteAdapter.getFilter().filter(s.toString());
+                if (recyclerView.getVisibility() == View.GONE) {recyclerView.setVisibility(View.VISIBLE);}
+            } else {
+                if (recyclerView.getVisibility() == View.VISIBLE) {recyclerView.setVisibility(View.GONE);}
+            }
+        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+        public void onTextChanged(CharSequence s, int start, int before, int count) { }
+    };
 }

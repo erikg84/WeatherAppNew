@@ -22,17 +22,16 @@ public class Currently{
 	}
 
 	private Map<String, Integer> iconMap = new HashMap<String, Integer>() {{
-		put("clear-day", R.mipmap.ic_summer_foreground);
-		put("clear-night", R.mipmap.ic_clear_night_foreground);
-		put("rain", R.mipmap.ic_rain_foreground);
-		put("snow", R.mipmap.ic_snow_foreground);
-		put("sleet", R.mipmap.ic_sleet_foreground);
-		put("wind", R.mipmap.ic_wind_foreground);
-		put("fog", R.mipmap.ic_haze_foreground);
-		put("cloudy", R.mipmap.ic_clouds_foreground);
-		put("partly-cloudy-day", R.mipmap.ic_partly_cloudy_day_foreground);
+		put("clear-day", R.mipmap.ic_summer_foreground);put("clear-night", R.mipmap.ic_clear_night_foreground);put("rain", R.mipmap.ic_rain_foreground);
+		put("snow", R.mipmap.ic_snow_foreground);put("sleet", R.mipmap.ic_sleet_foreground);put("wind", R.mipmap.ic_wind_foreground);
+		put("fog", R.mipmap.ic_haze_foreground);put("cloudy", R.mipmap.ic_clouds_foreground);put("partly-cloudy-day", R.mipmap.ic_partly_cloudy_day_foreground);
 		put("partly-cloudy-night", R.mipmap.ic_night_foreground);
-
+	}};
+	private Map<String, Integer> backgroundMap = new HashMap<String, Integer>() {{
+		put("clear-day", R.drawable.gradient_clear_day);put("clear-night", R.drawable.gradient_clear_night);put("rain", R.drawable.gradient_rain);
+		put("snow", R.drawable.gradient_snow);put("sleet", R.drawable.gradient_sleet);put("wind", R.drawable.gradient_wind);
+		put("fog", R.drawable.gradient_fog);put("cloudy", R.drawable.gradient_cloudy);put("partly-cloudy-day", R.drawable.gradient_partly_cloudy_day);
+		put("partly-cloudy-night", R.drawable.gradient_partly_cloudy_night);
 	}};
 
 	@SerializedName("summary")
@@ -103,6 +102,13 @@ public class Currently{
 
 	public Drawable getImageRes() {
 		return context.getResources().getDrawable(iconMap.get(getIcon()),null);
+	}
+
+	@SerializedName("backgroundRes")
+	private Drawable backgroundRes;
+
+	public Drawable getBackgroundRes() {
+		return context.getResources().getDrawable(backgroundMap.get(getIcon()),null);
 	}
 
 	public void setSummary(String summary){
