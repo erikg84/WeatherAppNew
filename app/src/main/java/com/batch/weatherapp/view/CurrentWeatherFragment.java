@@ -1,27 +1,24 @@
 package com.batch.weatherapp.view;
 
 
+import android.content.Context;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.batch.weatherapp.R;
@@ -29,33 +26,36 @@ import com.batch.weatherapp.adapter.WeatherAdapter;
 import com.batch.weatherapp.databinding.FragmentCurrentWeatherBinding;
 import com.batch.weatherapp.model.Currently;
 import com.batch.weatherapp.model.DataItem;
-import com.batch.weatherapp.model.Response;
 import com.batch.weatherapp.placesadapter.PlacesAutoCompleteAdapter;
 import com.batch.weatherapp.viewmodel.WeatherViewModel;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.zip.Inflater;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CurrentWeatherFragment extends Fragment implements PlacesAutoCompleteAdapter.ClickListener {
+public class CurrentWeatherFragment extends Fragment implements PlacesAutoCompleteAdapter.ClickListener{
+
     private WeatherAdapter adapter;
     private List<DataItem> dataItems;
     private double latitude, longitude = 0;
     private String featureName, countryName="";
     private WeatherViewModel viewModel;
     private FragmentCurrentWeatherBinding bind;
-
     private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
     private RecyclerView recyclerView;
+    private Context context;
 
     public CurrentWeatherFragment() {
         // Required empty public constructor
@@ -67,7 +67,7 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
                              Bundle savedInstanceState) {
         bind = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),R.layout.fragment_current_weather, container, false);
         viewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
-
+        context = container.getContext();
         setupObservers();
         //Default location to New York, USA
         setLocaleDetails("new york");
@@ -79,7 +79,7 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
         bind.recyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
         bind.recyclerview.setAdapter(adapter);
         setupListeners();
-        setupPlacesAdapter(bind.getRoot());
+        setupPlacesAdapter();
         return bind.getRoot();
     }
     private void setupListeners(){
@@ -116,32 +116,56 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
 
     }
 
-    @Override
-    public void click(Place place) {
-        Toast.makeText(requireActivity(), place.getAddress()+", "+place.getLatLng().latitude+place.getLatLng().longitude, Toast.LENGTH_SHORT).show();
-    }
-    private void setupPlacesAdapter(View view){
-        Places.initialize(requireContext(), "AIzaSyDPjOpwm4thAtskqkNKm61FJCTlV8GABDQ");
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.places_recycler_view);
+    private void setupPlacesAdapter(){
+
+        Places.initialize(requireContext(), "AIzaSyDPjOpwm4thAtskqkNKm61FJCTlV8GABDQ");
         bind.searchBar.addTextChangedListener(filterTextWatcher);
 
-        mAutoCompleteAdapter = new PlacesAutoCompleteAdapter(requireContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        mAutoCompleteAdapter = new PlacesAutoCompleteAdapter(context);
+        bind.placesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         mAutoCompleteAdapter.setClickListener(this);
-        recyclerView.setAdapter(mAutoCompleteAdapter);
+        bind.placesRecyclerView.setAdapter(mAutoCompleteAdapter);
         mAutoCompleteAdapter.notifyDataSetChanged();
     }
     private TextWatcher filterTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
-            if (!s.toString().equals("")) {
+
+            if (!s.toString().equals("")) {topSettings(true);
                 mAutoCompleteAdapter.getFilter().filter(s.toString());
-                if (recyclerView.getVisibility() == View.GONE) {recyclerView.setVisibility(View.VISIBLE);}
+                if (bind.placesRecyclerView.getVisibility() == View.GONE) {
+                    bind.placesRecyclerView.setVisibility(View.VISIBLE);
+
+                }
             } else {
-                if (recyclerView.getVisibility() == View.VISIBLE) {recyclerView.setVisibility(View.GONE);}
+                if (bind.placesRecyclerView.getVisibility() == View.VISIBLE) {
+                    bind.placesRecyclerView.setVisibility(View.GONE);
+                    topSettings(false);
+                }
             }
         }
         public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
         public void onTextChanged(CharSequence s, int start, int before, int count) { }
     };
+    @Override
+    public void click(Place place) {
+        //Toast.makeText(requireActivity(), place.getAddress()+", "+place.getLatLng().latitude+place.getLatLng().longitude, Toast.LENGTH_SHORT).show();
+        bind.searchBar.setText(featureName+", "+countryName);
+        bind.placesRecyclerView.setVisibility(View.GONE);
+        topSettings(false);
+
+    }
+    private void topSettings(Boolean isEnabled){
+        if(isEnabled){
+            bind.searchBar.setBackgroundColor(Color.WHITE);
+            bind.searchBar.setTextColor(Color.BLACK);
+            bind.searchButton.setBackgroundColor(Color.WHITE);
+        }
+        else{
+            bind.searchBar.setBackgroundColor(Color.TRANSPARENT);
+            bind.searchBar.setTextColor(Color.WHITE);
+            bind.searchButton.setBackgroundColor(Color.TRANSPARENT);
+        }
+    }
+
 }
