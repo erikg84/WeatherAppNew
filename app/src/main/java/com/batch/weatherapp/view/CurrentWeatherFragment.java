@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AddressComponents;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
@@ -49,7 +51,7 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
 
     private WeatherAdapter adapter;
     private List<DataItem> dataItems;
-    private double latitude, longitude = 0;
+    private double latitude=39.9526, longitude = 75.1652;//deafult: Philadelphia
     private String featureName, countryName="";
     private WeatherViewModel viewModel;
     private FragmentCurrentWeatherBinding bind;
@@ -70,8 +72,8 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
         context = container.getContext();
         setupObservers();
         //Default location to New York, USA
-        setLocaleDetails("new york");
-        bind.searchBar.setText(featureName+", "+countryName);
+        //setLocaleDetails("pjiladelphia");
+        bind.searchBar.setText("Philadelphia");
         viewModel.getResponseObservable(latitude,longitude);
 
         dataItems = new ArrayList<>();
@@ -84,8 +86,6 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
     }
     private void setupListeners(){
         bind.searchButton.setOnClickListener(v -> {
-                    setLocaleDetails(bind.searchBar.getText().toString());
-                    bind.searchBar.setText(featureName+", "+countryName);
                     viewModel.getResponseObservable(latitude, longitude);
                 });
     }
@@ -99,24 +99,6 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
                 adapter.notifyDataSetChanged();
             });
     }
-    private void setLocaleDetails(String placeName){
-        Geocoder geocoder = new Geocoder(requireContext());
-        try {
-
-            Address location= geocoder.getFromLocationName(placeName,1).get(0);
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
-            featureName = location.getFeatureName();
-            countryName = location.getCountryName();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-
     private void setupPlacesAdapter(){
 
         Places.initialize(requireContext(), "AIzaSyDPjOpwm4thAtskqkNKm61FJCTlV8GABDQ");
@@ -149,8 +131,9 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
     };
     @Override
     public void click(Place place) {
-        //Toast.makeText(requireActivity(), place.getAddress()+", "+place.getLatLng().latitude+place.getLatLng().longitude, Toast.LENGTH_SHORT).show();
-        bind.searchBar.setText(featureName+", "+countryName);
+        bind.searchBar.setText(place.getName());
+        latitude = place.getLatLng().latitude;
+        longitude = place.getLatLng().longitude;
         bind.placesRecyclerView.setVisibility(View.GONE);
         topSettings(false);
 

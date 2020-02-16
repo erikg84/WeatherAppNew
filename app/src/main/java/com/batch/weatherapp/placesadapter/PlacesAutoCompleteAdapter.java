@@ -15,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.batch.weatherapp.R;
+import com.batch.weatherapp.databinding.PlaceRecyclerItemLayoutBinding;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +28,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
@@ -42,7 +45,6 @@ import java.util.concurrent.TimeoutException;
 public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCompleteAdapter.PredictionHolder> implements Filterable {
     private static final String TAG = "PlacesAutoAdapter";
     private ArrayList<PlaceAutocomplete> mResultList = new ArrayList<>();
-
     private Context mContext;
     private CharacterStyle STYLE_BOLD;
     private CharacterStyle STYLE_NORMAL;
@@ -114,7 +116,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
                 // Call either setLocationBias() OR setLocationRestriction().
                 //.setLocationBias(bounds)
                 //.setCountry("BD")
-                //.setTypeFilter(TypeFilter.ADDRESS)
+                .setTypeFilter(TypeFilter.CITIES)
                 .setSessionToken(token)
                 .setQuery(constraint.toString())
                 .build();
@@ -147,15 +149,17 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
     @NonNull
     @Override
     public PredictionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View convertView = layoutInflater.inflate(R.layout.place_recycler_item_layout, viewGroup, false);
-        return new PredictionHolder(convertView);
+        //LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //View convertView = layoutInflater.inflate(R.layout.place_recycler_item_layout, viewGroup, false);
+        PlaceRecyclerItemLayoutBinding bind = DataBindingUtil.inflate(LayoutInflater.from(mContext),R.layout.place_recycler_item_layout,viewGroup,false);
+
+        return new PredictionHolder(bind);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PredictionHolder mPredictionHolder, final int i) {
-        mPredictionHolder.address.setText(mResultList.get(i).address);
-        mPredictionHolder.area.setText(mResultList.get(i).area);
+    public void onBindViewHolder(@NonNull PredictionHolder holder, final int position) {
+        holder.bind.placeAddress.setText(mResultList.get(position).address);
+        holder.bind.placeArea.setText(mResultList.get(position).area);
     }
 
     @Override
@@ -170,13 +174,12 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
     public class PredictionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView address, area;
         private LinearLayout mRow;
+        PlaceRecyclerItemLayoutBinding bind;
 
-        PredictionHolder(View itemView) {
-            super(itemView);
-            area = itemView.findViewById(R.id.place_area);
-            address = itemView.findViewById(R.id.place_address);
-            mRow = itemView.findViewById(R.id.place_item_view);
-            itemView.setOnClickListener(this);
+        PredictionHolder(@NonNull PlaceRecyclerItemLayoutBinding itemView) {
+            super(itemView.getRoot());
+            bind = itemView;
+            bind.getRoot().setOnClickListener(this);
         }
 
         @Override
