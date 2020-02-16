@@ -50,6 +50,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
     private CharacterStyle STYLE_NORMAL;
     private final PlacesClient placesClient;
     private ClickListener clickListener;
+    private Place myPlace;
 
     public PlacesAutoCompleteAdapter(Context context) {
         mContext = context;
@@ -74,6 +75,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
+
                 FilterResults results = new FilterResults();
                 // Skip the autocomplete query if no constraints are given.
                 if (constraint != null) {
@@ -103,13 +105,11 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
 
 
     private ArrayList<PlaceAutocomplete> getPredictions(CharSequence constraint) {
-
         final ArrayList<PlaceAutocomplete> resultList = new ArrayList<>();
 
         // Create a new token for the autocomplete session. Pass this to FindAutocompletePredictionsRequest,
         // and once again when the user makes a selection (for example when calling fetchPlace()).
         AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
-
         //https://gist.github.com/graydon/11198540
         // Use the builder to create a FindAutocompletePredictionsRequest.
         FindAutocompletePredictionsRequest request = FindAutocompletePredictionsRequest.builder()
@@ -132,6 +132,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
         }
 
         if (autocompletePredictions.isSuccessful()) {
+
             FindAutocompletePredictionsResponse findAutocompletePredictionsResponse = autocompletePredictions.getResult();
             if (findAutocompletePredictionsResponse != null)
                 for (AutocompletePrediction prediction : findAutocompletePredictionsResponse.getAutocompletePredictions()) {
@@ -141,6 +142,7 @@ public class PlacesAutoCompleteAdapter extends RecyclerView.Adapter<PlacesAutoCo
 
             return resultList;
         } else {
+
             return resultList;
         }
 
