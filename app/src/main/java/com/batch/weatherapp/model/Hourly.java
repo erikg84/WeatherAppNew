@@ -1,11 +1,18 @@
 package com.batch.weatherapp.model;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
+import com.batch.weatherapp.R;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Hourly{
+
 
 	@SerializedName("summary")
 	private String summary;
@@ -15,6 +22,8 @@ public class Hourly{
 
 	@SerializedName("icon")
 	private String icon;
+
+
 
 	public void setSummary(String summary){
 		this.summary = summary;

@@ -1,14 +1,33 @@
 package com.batch.weatherapp.model;
 
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
+import com.batch.weatherapp.R;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DataItem{
+
+	private Context context;
+	private Map<String, Integer> iconMap = new HashMap<String, Integer>() {{
+		put("clear-day", R.mipmap.ic_summer_foreground);put("clear-night", R.mipmap.ic_clear_night_foreground);put("rain", R.mipmap.ic_rain_foreground);
+		put("snow", R.mipmap.ic_snow_foreground);put("sleet", R.mipmap.ic_sleet_foreground);put("wind", R.mipmap.ic_wind_foreground);
+		put("fog", R.mipmap.ic_haze_foreground);put("cloudy", R.mipmap.ic_clouds_foreground);put("partly-cloudy-day", R.mipmap.ic_partly_cloudy_day_foreground);
+		put("partly-cloudy-night", R.mipmap.ic_night_foreground);
+	}};
+
+
+	public void setContext(Context context){
+		this.context = context;
+	}
 
 	@SerializedName("windGust")
 	private double windGust;
@@ -135,6 +154,13 @@ public class DataItem{
 
 	@SerializedName("apparentTemperatureMaxTime")
 	private int apparentTemperatureMaxTime;
+
+	@SerializedName("imageRes")
+	private Drawable imageRes;
+
+	public Drawable getImageRes() {
+		return context.getResources().getDrawable(iconMap.get(getIcon()),null);
+	}
 
 	public void setWindGust(double windGust){
 		this.windGust = windGust;

@@ -18,7 +18,6 @@ public class Currently{
 
 	public void setContext(Context context){
 		this.context = context;
-		Log.d("MY TAG: ", "setContext: ");
 	}
 
 	private Map<String, Integer> iconMap = new HashMap<String, Integer>() {{

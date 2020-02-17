@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <variable
-            name="data"
+        <variable name="data"
             type="com.batch.weatherapp.model.DataItem"/>
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:orientation="vertical"
         android:background="@null">
 
         <TextView
             android:id="@+id/hourly_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
+            android:layout_above="@id/hourly_temperature"
             android:text="@{data.time}"
             android:textSize="20sp"
             android:textColor="@color/white"
@@ -29,20 +27,25 @@
             android:id="@+id/hourly_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_above="@id/recycler_image"
             android:text="@{data.temperature}"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             />
+        <ImageView
+            android:id="@+id/recycler_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/hourly_precipitation"
+            android:src="@{data.imageRes}"/>
+
         <TextView
             android:id="@+id/hourly_precipitation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
+            android:layout_marginLeft="5dp"
             android:text="@{data.precipProbability}"
             android:textSize="20sp"
             android:textColor="@color/white"

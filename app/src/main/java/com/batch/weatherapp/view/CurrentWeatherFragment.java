@@ -15,13 +15,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
+
 import com.batch.weatherapp.R;
 import com.batch.weatherapp.adapter.WeatherAdapter;
 import com.batch.weatherapp.databinding.FragmentCurrentWeatherBinding;
+import com.batch.weatherapp.databinding.RowBinding;
 import com.batch.weatherapp.model.Currently;
 import com.batch.weatherapp.model.DataItem;
+import com.batch.weatherapp.model.Hourly;
 import com.batch.weatherapp.placesadapter.PlacesAutoCompleteAdapter;
 import com.batch.weatherapp.viewmodel.WeatherViewModel;
 import com.google.android.libraries.places.api.Places;
@@ -39,12 +46,11 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
     private static final String PLACES_API_KEY = "AIzaSyDPjOpwm4thAtskqkNKm61FJCTlV8GABDQ";
     private WeatherAdapter adapter;
     private List<DataItem> dataItems;
-    private double latitude=39.9525839, longitude = -75.1652215;//default: Philadelphia,PA
+    private double latitude = 34.0522342, longitude = -118.2436849;//default: Los Angeles, Ca
     private WeatherViewModel viewModel;
     private FragmentCurrentWeatherBinding bind;
     private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
     private Context context;
-
     public CurrentWeatherFragment() {
         // Required empty public constructor
     }
@@ -54,24 +60,30 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         bind = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),R.layout.fragment_current_weather, container, false);
+
         viewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
         context = container.getContext();
         setupObservers();
         //Default location to New York, USA
         //setLocaleDetails("pjiladelphia");
-        bind.searchBar.setText("Philadelphia");
+        bind.searchBar.setText("Los Angeles");
         viewModel.getResponseObservable(latitude,longitude);
 
         dataItems = new ArrayList<>();
+
         adapter = new WeatherAdapter(dataItems);
+
         LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
         bind.recyclerview.setLayoutManager(horizontalLayoutManagaer);
         bind.recyclerview.setAdapter(adapter);
+
+
         setupListeners();
         setupPlacesAdapter();
 
         return bind.getRoot();
     }
+
     private void setupListeners(){
         bind.searchButton.setOnClickListener(v -> {
                     viewModel.getResponseObservable(latitude, longitude);
@@ -80,10 +92,14 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
     private void setupObservers(){
                 viewModel.getResponse().observe(getViewLifecycleOwner(), response -> {
                 Currently currently = response.getCurrently();
-                currently.setContext(requireContext());
+                currently.setContext(context);
+
                 bind.setCurrently(currently);//binding current weather data - min/max
                 bind.setData(response.getDaily().getData().get(0));//binding min/max
-                adapter.addDataItems(response.getHourly().getData());
+
+
+
+                adapter.addDataItems(response.getHourly().getData(),context);
                 adapter.notifyDataSetChanged();
             });
     }
@@ -122,6 +138,7 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
         bind.searchBar.setText(place.getName());
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
+        Log.d(TAG, "COORDINATES  :  :  : ====>"+latitude+"  "+longitude);
         bind.placesRecyclerView.setVisibility(View.GONE);
         topSettings(false);
 
@@ -138,5 +155,6 @@ public class CurrentWeatherFragment extends Fragment implements PlacesAutoComple
             bind.searchButton.setBackgroundColor(Color.TRANSPARENT);
         }
     }
+
 
 }
